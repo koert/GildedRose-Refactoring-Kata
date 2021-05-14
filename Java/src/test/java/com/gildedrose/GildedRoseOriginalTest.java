@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class GildedRoseTest {
+class GildedRoseOriginalTest {
 
     @DisplayName("item name")
     @Nested class Name {
@@ -18,7 +18,7 @@ class GildedRoseTest {
             Item[] items = new Item[] {
                 new Item(name, 0, 0)
             };
-            GildedRose app = new GildedRose(items);
+            GildedRoseOriginal app = new GildedRoseOriginal(items);
             app.updateQuality();
 
             assertEquals(name, app.items[0].name);
@@ -33,7 +33,7 @@ class GildedRoseTest {
             Item[] items = new Item[] {
                 new Item(name, sellIn, 0)
             };
-            GildedRose app = new GildedRose(items);
+            GildedRoseOriginal app = new GildedRoseOriginal(items);
             app.updateQuality();
 
             assertEquals(sellIn - 1, app.items[0].sellIn);
@@ -48,7 +48,7 @@ class GildedRoseTest {
             Item[] items = new Item[] {
                 new Item("Aged Brie", sellIn, quality)
             };
-            GildedRose app = new GildedRose(items);
+            GildedRoseOriginal app = new GildedRoseOriginal(items);
             app.updateQuality();
 
             assertEquals(expectedQuality, app.items[0].quality);
@@ -58,12 +58,12 @@ class GildedRoseTest {
     @DisplayName("Backstage passes")
     @Nested class BackstagePass {
         @ParameterizedTest
-        @CsvSource({"0,10,0", "5,10,13", "20,10,11", "10,10,12"})
+        @CsvSource({"0,10,0", "4,10,13", "5,10,13", "6,10,12", "9,10,12", "10,10,12", "11,10,11", "20,10,11"})
         void parameters(int sellIn, int quality, int expectedQuality) {
             Item[] items = new Item[] {
                 new Item("Backstage passes to a TAFKAL80ETC concert", sellIn, quality)
             };
-            GildedRose app = new GildedRose(items);
+            GildedRoseOriginal app = new GildedRoseOriginal(items);
             app.updateQuality();
 
             assertEquals(expectedQuality, app.items[0].quality);
@@ -78,25 +78,11 @@ class GildedRoseTest {
             Item[] items = new Item[] {
                 new Item("Sulfuras, Hand of Ragnaros", sellIn, quality)
             };
-            GildedRose app = new GildedRose(items);
+            GildedRoseOriginal app = new GildedRoseOriginal(items);
             app.updateQuality();
 
             assertEquals(expectedQuality, app.items[0].quality);
         }
     }
 
-    @DisplayName("Conjured")
-    @Nested class Conjured {
-        @ParameterizedTest
-        @CsvSource({"-1,0,0", "-1,10,6", "0,10,6", "10,10,8"})
-        void parameters(int sellIn, int quality, int expectedQuality) {
-            Item[] items = new Item[] {
-                new Item("Conjured", sellIn, quality)
-            };
-            GildedRose app = new GildedRose(items);
-            app.updateQuality();
-
-            assertEquals(expectedQuality, app.items[0].quality);
-        }
-    }
 }
