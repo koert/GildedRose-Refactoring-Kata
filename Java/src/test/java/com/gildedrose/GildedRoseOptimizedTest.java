@@ -2,12 +2,35 @@ package com.gildedrose;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.approvaltests.combinations.CombinationApprovals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class GildedRoseOptimizedTest {
+
+    public static final String[] NAMES = {"foo", "Aged Brie", "Backstage passes to a TAFKAL80ETC concert",
+        "Sulfuras, Hand of Ragnaros", "Conjured"};
+    public static final Integer[] SELL_IN = {-1, 0, 4, 5, 6, 9, 10, 11};
+    public static final Integer[] QUALITY = {0, 10, 50};
+
+    @DisplayName("updateQuality")
+    @Test
+    void updateQuality() {
+        CombinationApprovals.verifyAllCombinations(this::doUpdateQuality, NAMES, SELL_IN, QUALITY);
+    }
+
+    String doUpdateQuality(String name, int sellIn, int quality) {
+        Item[] items = new Item[] {
+            new Item(name, sellIn, quality)
+        };
+        GildedRoseOriginal app = new GildedRoseOriginal(items);
+        app.updateQuality();
+
+        return app.items[0].toString();
+    }
 
     @DisplayName("item name")
     @Nested
